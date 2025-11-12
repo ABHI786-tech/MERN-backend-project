@@ -1,0 +1,9 @@
+# Ignore folder
+.env
+node_modules/
+package-lock.json
+
+
+
+
+#  bcrypt body-parser clsx cors dotenv express express-validator jsonwebtoken mongoose nodemailer random-int

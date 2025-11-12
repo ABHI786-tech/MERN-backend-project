@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const jwtSecrectKey = process.env.JWT_SECRECTKEY;
 const nodemailer = require("nodemailer");
 const saltRounds = 10;
+const employeesModel = require("../models/employeesModel")
 
 
 // function convertjwtToken(email, id) {
@@ -88,8 +89,9 @@ async function userRegister(req, res) {
 async function userProfile(req, res) {
     try {
         const user = await userSchema.findById(req.user).select("-password");
-
-        return res.status(200).json({ user, message: "get employee data sucessfuly" })
+        const employee = await employeesModel.countDocuments({user:user})
+        user['total_employee'] = employee
+        return res.status(200).json({ ...user.toObject(),total_employee:employee ,message: "get employee data sucessfuly" })
     }
     catch (err) {
         console.log({ err, message: "Failed to fetch employee data" })
