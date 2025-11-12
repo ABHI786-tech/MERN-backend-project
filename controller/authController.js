@@ -6,7 +6,7 @@ const crypto = require("crypto");
 const jwtSecrectKey = process.env.JWT_SECRECTKEY;
 const nodemailer = require("nodemailer");
 const saltRounds = 10;
-const employeesModel = require("../models/employeesModel")
+const employeeSchema = require("../models/employeesModel")
 
 
 // function convertjwtToken(email, id) {
@@ -89,11 +89,10 @@ async function userRegister(req, res) {
 async function userProfile(req, res) {
     try {
         const user = await userSchema.findById(req.user).select("-password");
-        const employee = await employeesModel.countDocuments({user:user._id})
+        const employee = await employeeSchema.countDocuments({user:req.user})
         user['total_employee'] = employee
-        const userObj = user.toObject();
-        userObj.total_employee = employeeCount;
-        return res.status(200).json({userObj, ...userObj,message: "get employee data sucessfuly" })
+        return res.status(200).json({...user.toObject(),total_employee:employee })
+        // return res.status(200).json({...userObj,message: "get employee data sucessfuly" })
     }
     catch (err) {
         console.log({ err, message: "Failed to fetch employee data" })
@@ -123,7 +122,7 @@ async function userLogin(req, res) {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ id: user._id, email: user.email }, jwtSecrectKey, { expiresIn: "7d" });
+        const token = jwt.sign({ id: user._id, email: user.email }, jwtSecrectKey, { expiresIn: "1d" });
 
         // Send response
         res.status(200).json({
