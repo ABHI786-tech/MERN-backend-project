@@ -93,7 +93,7 @@ async function userProfile(req, res) {
         user['total_employee'] = employee
         const userObj = user.toObject();
         userObj.total_employee = employeeCount;
-        return res.status(200).json({ ...userObj ,message: "get employee data sucessfuly" })
+        return res.status(200).json({userObj, ...userObj,message: "get employee data sucessfuly" })
     }
     catch (err) {
         console.log({ err, message: "Failed to fetch employee data" })
