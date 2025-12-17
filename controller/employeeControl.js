@@ -5,7 +5,7 @@ const randomInteger = require("random-int")
 /// getting all employees data 
 async function getEmployee(req, res) {
     try {
-        const employees = await employeeSchema.find().lean()
+        const employees = await employeeSchema.find({ user: req.user }).lean();
         return res.status(200).send({ employees, message: "get employee data sucessfuly" })
     }
     catch (err) {

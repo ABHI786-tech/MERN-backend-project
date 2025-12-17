@@ -5,7 +5,9 @@ const port = process.env.PORT;
 const bodyParser = require("body-parser")
 const employeeRouter = require("./router/employeesRouter")
 const userRouter = require("./router/authRouter")
+const rightsRouter = require("./router/rightsRouter")
 const cors = require("cors")
+
 
 app.use(bodyParser.json())
 app.use(cors());       
@@ -13,6 +15,7 @@ app.use(cors());
 
 app.use("/", employeeRouter )
 app.use("/", userRouter)
+app.use("/", rightsRouter)
 
 
 
